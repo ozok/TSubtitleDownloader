@@ -1,0 +1,11 @@
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\TSubtitleDownloader.exe.config
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\TSubtitleDownloader.exe
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\TSubtitleDownloader.pdb
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\ICSharpCode.SharpZipLib.dll
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\SubtitleDownloader.dll
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.csprojResolveAssemblyReference.cache
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.MainForm.resources
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.Properties.Resources.resources
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.csproj.GenerateResource.Cache
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.exe
+c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.pdb
