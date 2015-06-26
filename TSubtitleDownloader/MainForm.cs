@@ -200,6 +200,7 @@ namespace TSubtitleDownloader
                                     listItem.Selected = false;
                                 });
                                 Thread.Sleep(150);
+                                continue;
                             }
                         }
                         else
