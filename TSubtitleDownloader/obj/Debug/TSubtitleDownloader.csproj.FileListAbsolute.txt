@@ -7,3 +7,5 @@ c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitl
 c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.csproj.GenerateResource.Cache
 c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.exe
 c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.pdb
+C:\Users\ozok\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ozok\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\Newtonsoft.Json.xml

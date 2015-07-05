@@ -23,12 +23,90 @@ namespace TSubtitleDownloader
             InitializeComponent();
         }
 
+        private const bool Portable = true;
+        private const int Version = 1;
+        private string _settingsFilePath;
+        private Settings _settings;
+
         private List<string> _filePathsList = new List<string>();
         private string _progressMessage = string.Empty;
         private bool _stopDownload = false;
         private int _successCounter = 0;
         private int _failCounter = 0;
         private static Languages _languages = new Languages("languages.csv");
+        private string _appDataFolder;
+
+        private void DisableUI()
+        {
+            AddFileBtn.Enabled = false;
+            SkipExistingSubBtn.Enabled = false;
+            LanguageList.Enabled = false;
+            DownloadSubtitlesBtn.Enabled = false;
+            StopBtn.Enabled = true;
+        }
+
+        private void EnableUI()
+        {
+            AddFileBtn.Enabled = true;
+            SkipExistingSubBtn.Enabled = true;
+            LanguageList.Enabled = true;
+            DownloadSubtitlesBtn.Enabled = true;
+            StopBtn.Enabled = false; 
+        }
+        /// <summary>
+        /// lists all the files matching the extension
+        /// </summary>
+        /// <param name="folderPath">full folder path</param>
+        /// <param name="searchOption">search option</param>
+        /// <returns></returns>
+        private List<string> ListFiles(string folderPath, System.IO.SearchOption searchOption)
+        {
+            List<string> result = new List<string>();
+
+            string[] filters = { "*.flv", "*.m2v", "*.avi", "*.mkv", "*.mpeg", "*.mpg", "*.mov", "*.wmv", "*.mp4", "*.m4v", "*.dat", "*.vob", "*.rmvb", "*.mts", "*.mxf"};
+
+            foreach (string filter in filters)
+            {
+                // add found file names to array list
+                try
+                {
+                    result.AddRange(Directory.GetFiles(folderPath, filter, searchOption));
+                }
+                catch (Exception exception)
+                {
+                    LogEvent(exception.Message);
+                }
+            }
+
+            return result;
+        } 
+        /// <summary>
+        /// load settings from json file
+        /// </summary>
+        private void LoadSettings()
+        {
+            // if settings file does not exits 
+            // just create it as empty and create a setting
+            // instance which will have default values
+            if (!File.Exists(_settingsFilePath))
+            {
+                File.WriteAllText(_settingsFilePath, "", Encoding.UTF8);
+                _settings = new Settings();
+            }
+            else
+            {
+                SettingReader settingReader = new SettingReader(_settingsFilePath);
+                _settings = settingReader.LoadSettings();
+            }
+        }
+        /// <summary>
+        /// saves settings to json file
+        /// </summary>
+        private void SaveSettings()
+        {
+            SettingReader settingReader = new SettingReader(_settingsFilePath);
+            settingReader.SaveSettings(_settings);
+        }
 
         /// <summary>
         /// adds given file to the file list
@@ -36,12 +114,19 @@ namespace TSubtitleDownloader
         /// <param name="filePath">full path to the file</param>
         public void AddFileToList(string filePath)
         {
-            var listItem = FileList.Items.Add(Path.GetFileName(filePath));
-            listItem.SubItems.Add(Path.GetExtension(filePath));
-            FileInfo fileInfo = new FileInfo(filePath);
-            listItem.SubItems.Add(fileInfo.Length.ToString());
-            listItem.SubItems.Add("Waiting");
-            _filePathsList.Add(filePath);
+            try
+            {
+                var listItem = FileList.Items.Add(Path.GetFileName(filePath));
+                listItem.SubItems.Add(Path.GetExtension(filePath));
+                FileInfo fileInfo = new FileInfo(filePath);
+                listItem.SubItems.Add(fileInfo.Length.ToString());
+                listItem.SubItems.Add("Waiting");
+                _filePathsList.Add(filePath);
+            }
+            catch (Exception exception)
+            {
+                LogEvent(exception.Message);
+            }
         }
 
         /// <summary>
@@ -67,13 +152,7 @@ namespace TSubtitleDownloader
 
         private void AddFileBtn_Click(object sender, EventArgs e)
         {
-            if (openVideoDialog.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string fileName in openVideoDialog.FileNames)
-                {
-                    AddFileToList(fileName);
-                }   
-            }
+            AddMenu.Show(AddFileBtn, new Point(0, AddFileBtn.Height));
         }
 
         private void DownloadSubtitlesBtn_Click(object sender, EventArgs e)
@@ -85,6 +164,7 @@ namespace TSubtitleDownloader
                 _successCounter = 0;
                 _stopDownload = false;
 
+                DisableUI();
                 FileList.Focus();
                 SubtitleDownloadWorker.RunWorkerAsync();
             }
@@ -271,6 +351,7 @@ namespace TSubtitleDownloader
             this.Invoke((MethodInvoker)delegate()
             {
                 ScoreLabel.Text = String.Format("Success: {0} / Fail: {1} / Processed: {2} / Total: {3}", _successCounter, _failCounter, _filePathsList.Count, _filePathsList.Count);
+                EnableUI();
             });
             Thread.Sleep(200);
         }
@@ -301,6 +382,157 @@ namespace TSubtitleDownloader
                 LanguageList.Items.Add(languagePair.Key);
             }
             LanguageList.SelectedIndex = 38; // English
+            if (!Portable)
+            {
+                _appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                        "\\TSubtitleDownloader";
+            }
+            else
+            {
+                _appDataFolder = AppDomain.CurrentDomain.BaseDirectory;
+            }
+            if (!Portable)
+            {
+                if (!Directory.Exists(_appDataFolder))
+                {
+                    Directory.CreateDirectory(_appDataFolder);
+                } 
+            }
+            _settingsFilePath = _appDataFolder + "\\settings.json";
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            LoadSettings();
+
+            LanguageList.SelectedIndex = _settings.Language;
+            SkipExistingSubBtn.Checked = _settings.IgnoreIfExists;
+        }
+
+        private void SkipExistingSubBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_settings != null)
+            {
+                _settings.IgnoreIfExists = SkipExistingSubBtn.Checked;
+            }
+        }
+
+        private void LanguageList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_settings != null)
+            {
+                _settings.Language = LanguageList.SelectedIndex;
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettings();
+        }
+
+        private void addFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openVideoDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.Enabled = false;
+                WaitPanel.Left = (this.Width / 2) - (WaitPanel.Width / 2);
+                WaitPanel.Top = (this.Height / 2) - (WaitPanel.Height / 2);
+                WaitPanel.Visible = true;
+                WaitPanel.BringToFront();
+                FileList.BeginUpdate();
+                try
+                {
+                    foreach (string fileName in openVideoDialog.FileNames)
+                    {
+                        Application.DoEvents();
+                        AddFileToList(fileName);
+                    }
+                }
+                finally
+                {
+                    WaitPanel.Visible = false;
+                    FileList.EndUpdate();
+                    this.Enabled = true;
+                }
+            }
+        }
+
+        private void addFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFolderDialog.ShowDialog() == DialogResult.OK)
+            {
+                string folderPath = openFolderDialog.SelectedPath;
+
+                this.Enabled = false;
+                WaitPanel.Left = (this.Width / 2) - (WaitPanel.Width / 2);
+                WaitPanel.Top = (this.Height / 2) - (WaitPanel.Height / 2);
+                WaitPanel.Visible = true;
+                WaitPanel.BringToFront();
+                FileList.BeginUpdate();
+                try
+                {
+                    var files = ListFiles(folderPath, SearchOption.TopDirectoryOnly);
+                    foreach (string file in files)
+                    {
+                        Application.DoEvents();
+                        AddFileToList(file);
+                    }
+                }
+                finally
+                {
+                    WaitPanel.Visible = false;
+                    FileList.EndUpdate();
+                    this.Enabled = true;
+                }
+            }
+        }
+
+        private void addFolderTreeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFolderDialog.ShowDialog() == DialogResult.OK)
+            {
+                string folderPath = openFolderDialog.SelectedPath;
+
+                this.Enabled = false;
+                WaitPanel.Left = (this.Width / 2) - (WaitPanel.Width / 2);
+                WaitPanel.Top = (this.Height / 2) - (WaitPanel.Height / 2);
+                WaitPanel.Visible = true;
+                WaitPanel.BringToFront();
+                FileList.BeginUpdate();
+                try
+                {
+                    var files = ListFiles(folderPath, SearchOption.AllDirectories);
+                    foreach (string file in files)
+                    {
+                        Application.DoEvents();
+                        AddFileToList(file);
+                    }
+                }
+                finally
+                {
+                    WaitPanel.Visible = false;
+                    FileList.EndUpdate();
+                    this.Enabled = true;
+                }
+            }
+        }
+
+        private void clearLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LogList.Items.Clear();
+        }
+
+        private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveLogDialog.ShowDialog() == DialogResult.OK)
+            {
+               File.WriteAllLines(saveLogDialog.FileName, new string[]{LogList.Items.ToString()}, Encoding.UTF8);
+            }
+        }
+
+        private void StopBtn_Click(object sender, EventArgs e)
+        {
+            _stopDownload = true;
         }
     }
 }
