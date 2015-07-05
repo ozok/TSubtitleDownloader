@@ -1,10 +1,11 @@
 C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Release\TSubtitleDownloader.exe.config
 C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Release\TSubtitleDownloader.exe
 C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Release\TSubtitleDownloader.pdb
-C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Release\ICSharpCode.SharpZipLib.dll
-C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Release\SubtitleDownloader.dll
 C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Release\TSubtitleDownloader.MainForm.resources
 C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Release\TSubtitleDownloader.Properties.Resources.resources
 C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Release\TSubtitleDownloader.csproj.GenerateResource.Cache
 C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Release\TSubtitleDownloader.exe
 C:\Users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Release\TSubtitleDownloader.pdb
+C:\Users\ozok\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Release\Newtonsoft.Json.dll
+C:\Users\ozok\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Release\Newtonsoft.Json.xml
+C:\Users\ozok\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Release\TSubtitleDownloader.AboutForm.resources

@@ -15,12 +15,14 @@ namespace TSubtitleDownloader
         public int Language { get; set; }
         public bool IgnoreIfExists { get; set; }
         public string LastDirectory { get; set; }
+        public int WaitInterval { get; set; }
 
         public Settings()
         {
             Language = 38; // English
             IgnoreIfExists = false;
             LastDirectory = "";
+            WaitInterval = 500;
         }
     }
     /// <summary>

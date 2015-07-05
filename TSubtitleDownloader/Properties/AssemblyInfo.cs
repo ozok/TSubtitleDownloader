@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TSubtitleDownloader")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Batch subtitle downloader \nGPLv2")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("https://sourceforge.net/projects/tsubtitledownloader/")]
 [assembly: AssemblyProduct("TSubtitleDownloader")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  2015 ozok ozok26@gmail.com")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

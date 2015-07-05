@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.FileList = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -60,6 +61,23 @@
             this.saveLogDialog = new System.Windows.Forms.SaveFileDialog();
             this.WaitPanel = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.ClearBtn = new System.Windows.Forms.Button();
+            this.RemoveBtn = new System.Windows.Forms.Button();
+            this.mainMenu = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addFolderToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addFolderTreeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.IntervalEdit = new System.Windows.Forms.NumericUpDown();
+            this.versionControlThread = new System.ComponentModel.BackgroundWorker();
             this.AddMenu.SuspendLayout();
             this.TopBar.SuspendLayout();
             this.ProgressPanel.SuspendLayout();
@@ -67,6 +85,10 @@
             this.ListPanel.SuspendLayout();
             this.LogMenu.SuspendLayout();
             this.WaitPanel.SuspendLayout();
+            this.mainMenu.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.IntervalEdit)).BeginInit();
             this.SuspendLayout();
             // 
             // FileList
@@ -80,9 +102,9 @@
             this.FileList.FullRowSelect = true;
             this.FileList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.FileList.HideSelection = false;
-            this.FileList.Location = new System.Drawing.Point(0, 0);
+            this.FileList.Location = new System.Drawing.Point(0, 45);
             this.FileList.Name = "FileList";
-            this.FileList.Size = new System.Drawing.Size(984, 359);
+            this.FileList.Size = new System.Drawing.Size(984, 290);
             this.FileList.TabIndex = 1;
             this.FileList.UseCompatibleStateImageBehavior = false;
             this.FileList.View = System.Windows.Forms.View.Details;
@@ -90,7 +112,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "File Path";
-            this.columnHeader1.Width = 495;
+            this.columnHeader1.Width = 647;
             // 
             // columnHeader2
             // 
@@ -113,9 +135,11 @@
             // AddFileBtn
             // 
             this.AddFileBtn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.AddFileBtn.Image = ((System.Drawing.Image)(resources.GetObject("AddFileBtn.Image")));
+            this.AddFileBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AddFileBtn.Location = new System.Drawing.Point(0, 0);
             this.AddFileBtn.Name = "AddFileBtn";
-            this.AddFileBtn.Size = new System.Drawing.Size(100, 55);
+            this.AddFileBtn.Size = new System.Drawing.Size(115, 55);
             this.AddFileBtn.TabIndex = 2;
             this.AddFileBtn.Text = "Add Files";
             this.AddFileBtn.UseVisualStyleBackColor = true;
@@ -130,9 +154,11 @@
             // DownloadSubtitlesBtn
             // 
             this.DownloadSubtitlesBtn.Dock = System.Windows.Forms.DockStyle.Right;
-            this.DownloadSubtitlesBtn.Location = new System.Drawing.Point(884, 0);
+            this.DownloadSubtitlesBtn.Image = ((System.Drawing.Image)(resources.GetObject("DownloadSubtitlesBtn.Image")));
+            this.DownloadSubtitlesBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.DownloadSubtitlesBtn.Location = new System.Drawing.Point(869, 0);
             this.DownloadSubtitlesBtn.Name = "DownloadSubtitlesBtn";
-            this.DownloadSubtitlesBtn.Size = new System.Drawing.Size(100, 55);
+            this.DownloadSubtitlesBtn.Size = new System.Drawing.Size(115, 55);
             this.DownloadSubtitlesBtn.TabIndex = 3;
             this.DownloadSubtitlesBtn.Text = "Download";
             this.DownloadSubtitlesBtn.UseVisualStyleBackColor = true;
@@ -149,7 +175,7 @@
             this.LanguageList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LanguageList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LanguageList.FormattingEnabled = true;
-            this.LanguageList.Location = new System.Drawing.Point(466, 28);
+            this.LanguageList.Location = new System.Drawing.Point(114, 13);
             this.LanguageList.Name = "LanguageList";
             this.LanguageList.Size = new System.Drawing.Size(312, 21);
             this.LanguageList.TabIndex = 6;
@@ -157,19 +183,18 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(368, 31);
+            this.label1.Location = new System.Drawing.Point(12, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Subtitle language:";
+            this.label1.Text = "Subtitle Language:";
             // 
             // SkipExistingSubBtn
             // 
             this.SkipExistingSubBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SkipExistingSubBtn.AutoSize = true;
-            this.SkipExistingSubBtn.Location = new System.Drawing.Point(466, 5);
+            this.SkipExistingSubBtn.Location = new System.Drawing.Point(432, 15);
             this.SkipExistingSubBtn.Name = "SkipExistingSubBtn";
             this.SkipExistingSubBtn.Size = new System.Drawing.Size(190, 17);
             this.SkipExistingSubBtn.TabIndex = 8;
@@ -213,14 +238,13 @@
             // 
             // TopBar
             // 
+            this.TopBar.Controls.Add(this.RemoveBtn);
+            this.TopBar.Controls.Add(this.ClearBtn);
             this.TopBar.Controls.Add(this.StopBtn);
             this.TopBar.Controls.Add(this.AddFileBtn);
             this.TopBar.Controls.Add(this.DownloadSubtitlesBtn);
-            this.TopBar.Controls.Add(this.label1);
-            this.TopBar.Controls.Add(this.LanguageList);
-            this.TopBar.Controls.Add(this.SkipExistingSubBtn);
             this.TopBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TopBar.Location = new System.Drawing.Point(0, 0);
+            this.TopBar.Location = new System.Drawing.Point(0, 24);
             this.TopBar.Name = "TopBar";
             this.TopBar.Size = new System.Drawing.Size(984, 55);
             this.TopBar.TabIndex = 9;
@@ -229,9 +253,11 @@
             // 
             this.StopBtn.Dock = System.Windows.Forms.DockStyle.Right;
             this.StopBtn.Enabled = false;
-            this.StopBtn.Location = new System.Drawing.Point(784, 0);
+            this.StopBtn.Image = ((System.Drawing.Image)(resources.GetObject("StopBtn.Image")));
+            this.StopBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.StopBtn.Location = new System.Drawing.Point(754, 0);
             this.StopBtn.Name = "StopBtn";
-            this.StopBtn.Size = new System.Drawing.Size(100, 55);
+            this.StopBtn.Size = new System.Drawing.Size(115, 55);
             this.StopBtn.TabIndex = 9;
             this.StopBtn.Text = "Stop";
             this.StopBtn.UseVisualStyleBackColor = true;
@@ -280,6 +306,7 @@
             this.LogList.ContextMenuStrip = this.LogMenu;
             this.LogList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LogList.FormattingEnabled = true;
+            this.LogList.HorizontalScrollbar = true;
             this.LogList.Location = new System.Drawing.Point(0, 0);
             this.LogList.Name = "LogList";
             this.LogList.Size = new System.Drawing.Size(984, 137);
@@ -287,12 +314,13 @@
             // 
             // ListPanel
             // 
-            this.ListPanel.Controls.Add(this.WaitPanel);
-            this.ListPanel.Controls.Add(this.FileList);
+            this.ListPanel.Controls.Add(this.panel1);
+            this.ListPanel.Controls.Add(this.TopBar);
+            this.ListPanel.Controls.Add(this.mainMenu);
             this.ListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ListPanel.Location = new System.Drawing.Point(0, 55);
+            this.ListPanel.Location = new System.Drawing.Point(0, 0);
             this.ListPanel.Name = "ListPanel";
-            this.ListPanel.Size = new System.Drawing.Size(984, 359);
+            this.ListPanel.Size = new System.Drawing.Size(984, 414);
             this.ListPanel.TabIndex = 12;
             // 
             // LogMenu
@@ -326,9 +354,9 @@
             // 
             this.WaitPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.WaitPanel.Controls.Add(this.label2);
-            this.WaitPanel.Location = new System.Drawing.Point(309, 111);
+            this.WaitPanel.Location = new System.Drawing.Point(293, 161);
             this.WaitPanel.Name = "WaitPanel";
-            this.WaitPanel.Size = new System.Drawing.Size(200, 100);
+            this.WaitPanel.Size = new System.Drawing.Size(418, 70);
             this.WaitPanel.TabIndex = 2;
             this.WaitPanel.Visible = false;
             // 
@@ -337,10 +365,181 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(198, 98);
+            this.label2.Size = new System.Drawing.Size(416, 68);
             this.label2.TabIndex = 0;
             this.label2.Text = "Please wait...";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ClearBtn
+            // 
+            this.ClearBtn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ClearBtn.Image = ((System.Drawing.Image)(resources.GetObject("ClearBtn.Image")));
+            this.ClearBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ClearBtn.Location = new System.Drawing.Point(115, 0);
+            this.ClearBtn.Name = "ClearBtn";
+            this.ClearBtn.Size = new System.Drawing.Size(115, 55);
+            this.ClearBtn.TabIndex = 10;
+            this.ClearBtn.Text = "Clear All";
+            this.ClearBtn.UseVisualStyleBackColor = true;
+            this.ClearBtn.Click += new System.EventHandler(this.ClearBtn_Click);
+            // 
+            // RemoveBtn
+            // 
+            this.RemoveBtn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.RemoveBtn.Image = ((System.Drawing.Image)(resources.GetObject("RemoveBtn.Image")));
+            this.RemoveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RemoveBtn.Location = new System.Drawing.Point(230, 0);
+            this.RemoveBtn.Name = "RemoveBtn";
+            this.RemoveBtn.Size = new System.Drawing.Size(115, 55);
+            this.RemoveBtn.TabIndex = 11;
+            this.RemoveBtn.Text = "Remove";
+            this.RemoveBtn.UseVisualStyleBackColor = true;
+            this.RemoveBtn.Click += new System.EventHandler(this.RemoveBtn_Click);
+            // 
+            // mainMenu
+            // 
+            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.mainMenu.Location = new System.Drawing.Point(0, 0);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Size = new System.Drawing.Size(984, 24);
+            this.mainMenu.TabIndex = 3;
+            this.mainMenu.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addFilesToolStripMenuItem1,
+            this.addFolderToolStripMenuItem1,
+            this.addFolderTreeToolStripMenuItem1});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // addFilesToolStripMenuItem1
+            // 
+            this.addFilesToolStripMenuItem1.Name = "addFilesToolStripMenuItem1";
+            this.addFilesToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.addFilesToolStripMenuItem1.Text = "Add Files";
+            this.addFilesToolStripMenuItem1.Click += new System.EventHandler(this.addFilesToolStripMenuItem_Click);
+            // 
+            // addFolderToolStripMenuItem1
+            // 
+            this.addFolderToolStripMenuItem1.Name = "addFolderToolStripMenuItem1";
+            this.addFolderToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.addFolderToolStripMenuItem1.Text = "Add Folder";
+            this.addFolderToolStripMenuItem1.Click += new System.EventHandler(this.addFolderToolStripMenuItem_Click);
+            // 
+            // addFolderTreeToolStripMenuItem1
+            // 
+            this.addFolderTreeToolStripMenuItem1.Name = "addFolderTreeToolStripMenuItem1";
+            this.addFolderTreeToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.addFolderTreeToolStripMenuItem1.Text = "Add Folder Tree";
+            this.addFolderTreeToolStripMenuItem1.Click += new System.EventHandler(this.addFolderTreeToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeSelectedToolStripMenuItem,
+            this.clearAllToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // removeSelectedToolStripMenuItem
+            // 
+            this.removeSelectedToolStripMenuItem.Name = "removeSelectedToolStripMenuItem";
+            this.removeSelectedToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.removeSelectedToolStripMenuItem.Text = "Remove Selected";
+            this.removeSelectedToolStripMenuItem.Click += new System.EventHandler(this.RemoveBtn_Click);
+            // 
+            // clearAllToolStripMenuItem
+            // 
+            this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
+            this.clearAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.Delete)));
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.clearAllToolStripMenuItem.Text = "Clear All";
+            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.ClearBtn_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem1});
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.aboutToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem1
+            // 
+            this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem1.Text = "About";
+            this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.FileList);
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 79);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(984, 335);
+            this.panel1.TabIndex = 10;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.IntervalEdit);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.LanguageList);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.SkipExistingSubBtn);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(984, 45);
+            this.panel2.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(703, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(152, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Wait between downloads (ms):";
+            // 
+            // IntervalEdit
+            // 
+            this.IntervalEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.IntervalEdit.Location = new System.Drawing.Point(861, 14);
+            this.IntervalEdit.Maximum = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.IntervalEdit.Minimum = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.IntervalEdit.Name = "IntervalEdit";
+            this.IntervalEdit.Size = new System.Drawing.Size(111, 20);
+            this.IntervalEdit.TabIndex = 10;
+            this.IntervalEdit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.IntervalEdit.Value = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.IntervalEdit.ValueChanged += new System.EventHandler(this.IntervalEdit_ValueChanged);
+            // 
+            // versionControlThread
+            // 
+            this.versionControlThread.DoWork += new System.ComponentModel.DoWorkEventHandler(this.versionControlThread_DoWork);
             // 
             // MainForm
             // 
@@ -348,10 +547,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 580);
+            this.Controls.Add(this.WaitPanel);
             this.Controls.Add(this.ListPanel);
             this.Controls.Add(this.LogPanel);
             this.Controls.Add(this.ProgressPanel);
-            this.Controls.Add(this.TopBar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.mainMenu;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TSubtitleDownloader";
@@ -362,13 +563,19 @@
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.AddMenu.ResumeLayout(false);
             this.TopBar.ResumeLayout(false);
-            this.TopBar.PerformLayout();
             this.ProgressPanel.ResumeLayout(false);
             this.ProgressPanel.PerformLayout();
             this.LogPanel.ResumeLayout(false);
             this.ListPanel.ResumeLayout(false);
+            this.ListPanel.PerformLayout();
             this.LogMenu.ResumeLayout(false);
             this.WaitPanel.ResumeLayout(false);
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.IntervalEdit)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -406,6 +613,23 @@
         private System.Windows.Forms.SaveFileDialog saveLogDialog;
         private System.Windows.Forms.Panel WaitPanel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button RemoveBtn;
+        private System.Windows.Forms.Button ClearBtn;
+        private System.Windows.Forms.MenuStrip mainMenu;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addFilesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addFolderToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addFolderTreeToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeSelectedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.NumericUpDown IntervalEdit;
+        private System.Windows.Forms.Label label3;
+        private System.ComponentModel.BackgroundWorker versionControlThread;
     }
 }
 

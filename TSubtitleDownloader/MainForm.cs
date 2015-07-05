@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using SubtitleDownloader.Core;
 using SubtitleDownloader.Implementations.OpenSubtitles;
-using SubtitleDownloader.Util;
-using System.Threading;
 
 namespace TSubtitleDownloader
 {
@@ -23,7 +18,10 @@ namespace TSubtitleDownloader
             InitializeComponent();
         }
 
-        private const bool Portable = true;
+        private const bool Portable = false;
+
+        private const string VersionFileUrl =
+            "http://sourceforge.net/projects/tsubtitledownloader/files/version.txt/download";
         private const int Version = 1;
         private string _settingsFilePath;
         private Settings _settings;
@@ -36,21 +34,29 @@ namespace TSubtitleDownloader
         private static Languages _languages = new Languages("languages.csv");
         private string _appDataFolder;
 
-        private void DisableUI()
+        private void DisableUi()
         {
             AddFileBtn.Enabled = false;
             SkipExistingSubBtn.Enabled = false;
             LanguageList.Enabled = false;
             DownloadSubtitlesBtn.Enabled = false;
+            RemoveBtn.Enabled = false;
+            ClearBtn.Enabled = false;
+            IntervalEdit.Enabled = false;
+            mainMenu.Enabled = false;
             StopBtn.Enabled = true;
         }
 
-        private void EnableUI()
+        private void EnableUi()
         {
             AddFileBtn.Enabled = true;
             SkipExistingSubBtn.Enabled = true;
             LanguageList.Enabled = true;
             DownloadSubtitlesBtn.Enabled = true;
+            RemoveBtn.Enabled = true;
+            ClearBtn.Enabled = true;
+            IntervalEdit.Enabled = true;
+            mainMenu.Enabled = true;
             StopBtn.Enabled = false; 
         }
         /// <summary>
@@ -59,7 +65,7 @@ namespace TSubtitleDownloader
         /// <param name="folderPath">full folder path</param>
         /// <param name="searchOption">search option</param>
         /// <returns></returns>
-        private List<string> ListFiles(string folderPath, System.IO.SearchOption searchOption)
+        private List<string> ListFiles(string folderPath, SearchOption searchOption)
         {
             List<string> result = new List<string>();
 
@@ -164,7 +170,13 @@ namespace TSubtitleDownloader
                 _successCounter = 0;
                 _stopDownload = false;
 
-                DisableUI();
+                for (int i = 0; i < FileList.Items.Count; i++)
+                {
+                    FileList.Items[i].SubItems[2].Text = "Waiting";
+                    FileList.Items[i].Selected = false;
+                }
+
+                DisableUi();
                 FileList.Focus();
                 SubtitleDownloadWorker.RunWorkerAsync();
             }
@@ -195,6 +207,13 @@ namespace TSubtitleDownloader
                 {
                     break;
                 }
+
+                this.Invoke((MethodInvoker)delegate()
+                {
+                    LogEvent(String.Format("Sleeping for {0}", IntervalEdit.Value));
+                    Thread.Sleep(Convert.ToInt32(IntervalEdit.Value));
+                });
+
                 // will be used to update interface
                 var listItem = FileList.Items[i];
                 string filePath = _filePathsList[i];
@@ -351,7 +370,7 @@ namespace TSubtitleDownloader
             this.Invoke((MethodInvoker)delegate()
             {
                 ScoreLabel.Text = String.Format("Success: {0} / Fail: {1} / Processed: {2} / Total: {3}", _successCounter, _failCounter, _filePathsList.Count, _filePathsList.Count);
-                EnableUI();
+                EnableUi();
             });
             Thread.Sleep(200);
         }
@@ -399,6 +418,7 @@ namespace TSubtitleDownloader
                 } 
             }
             _settingsFilePath = _appDataFolder + "\\settings.json";
+            IntervalEdit.Maximum = Int32.MaxValue;
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -407,6 +427,8 @@ namespace TSubtitleDownloader
 
             LanguageList.SelectedIndex = _settings.Language;
             SkipExistingSubBtn.Checked = _settings.IgnoreIfExists;
+            IntervalEdit.Value = _settings.WaitInterval;
+            versionControlThread.RunWorkerAsync();
         }
 
         private void SkipExistingSubBtn_CheckedChanged(object sender, EventArgs e)
@@ -440,6 +462,7 @@ namespace TSubtitleDownloader
                 WaitPanel.Visible = true;
                 WaitPanel.BringToFront();
                 FileList.BeginUpdate();
+                WaitPanel.Refresh();
                 try
                 {
                     foreach (string fileName in openVideoDialog.FileNames)
@@ -459,9 +482,14 @@ namespace TSubtitleDownloader
 
         private void addFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Directory.Exists(_settings.LastDirectory))
+            {
+                openFolderDialog.SelectedPath = _settings.LastDirectory;
+            }
             if (openFolderDialog.ShowDialog() == DialogResult.OK)
             {
                 string folderPath = openFolderDialog.SelectedPath;
+                _settings.LastDirectory = folderPath;
 
                 this.Enabled = false;
                 WaitPanel.Left = (this.Width / 2) - (WaitPanel.Width / 2);
@@ -469,6 +497,7 @@ namespace TSubtitleDownloader
                 WaitPanel.Visible = true;
                 WaitPanel.BringToFront();
                 FileList.BeginUpdate();
+                WaitPanel.Refresh();
                 try
                 {
                     var files = ListFiles(folderPath, SearchOption.TopDirectoryOnly);
@@ -489,9 +518,14 @@ namespace TSubtitleDownloader
 
         private void addFolderTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Directory.Exists(_settings.LastDirectory))
+            {
+                openFolderDialog.SelectedPath = _settings.LastDirectory;
+            }
             if (openFolderDialog.ShowDialog() == DialogResult.OK)
             {
                 string folderPath = openFolderDialog.SelectedPath;
+                _settings.LastDirectory = folderPath;
 
                 this.Enabled = false;
                 WaitPanel.Left = (this.Width / 2) - (WaitPanel.Width / 2);
@@ -499,6 +533,7 @@ namespace TSubtitleDownloader
                 WaitPanel.Visible = true;
                 WaitPanel.BringToFront();
                 FileList.BeginUpdate();
+                WaitPanel.Refresh();
                 try
                 {
                     var files = ListFiles(folderPath, SearchOption.AllDirectories);
@@ -524,6 +559,10 @@ namespace TSubtitleDownloader
 
         private void saveLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (LogList.Items.Count < 1)
+            {
+                return;
+            }
             if (saveLogDialog.ShowDialog() == DialogResult.OK)
             {
                File.WriteAllLines(saveLogDialog.FileName, new string[]{LogList.Items.ToString()}, Encoding.UTF8);
@@ -533,6 +572,74 @@ namespace TSubtitleDownloader
         private void StopBtn_Click(object sender, EventArgs e)
         {
             _stopDownload = true;
+        }
+
+        private void ClearBtn_Click(object sender, EventArgs e)
+        {
+            if (FileList.Items.Count > 0)
+            {
+                if (MessageBox.Show("Clear the file list?", "TSubtitleDownloader", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    FileList.Items.Clear();
+                    _filePathsList.Clear();
+                }
+            }
+        }
+
+        private void RemoveBtn_Click(object sender, EventArgs e)
+        {
+            if (FileList.Items.Count > 0)
+            {
+                for (int i = FileList.Items.Count; i-- > 0; )
+                {
+                    if (FileList.Items[i].Selected)
+                    {
+                        _filePathsList.RemoveAt(i);
+                        FileList.Items.RemoveAt(i);
+                    }
+                }
+            }
+        }
+
+        private void IntervalEdit_ValueChanged(object sender, EventArgs e)
+        {
+            if (_settings != null)
+            {
+                _settings.WaitInterval =  Convert.ToInt32(IntervalEdit.Value);
+            }
+        }
+
+        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AboutForm aboutForm = new AboutForm();
+            aboutForm.ShowDialog();
+        }
+
+        private void versionControlThread_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var contents = new System.Net.WebClient().DownloadString(VersionFileUrl).Trim();
+            try
+            {
+                int newVersion = Convert.ToInt32(contents);
+                if (newVersion > Version)
+                {
+                    this.Invoke((MethodInvoker) delegate()
+                    {
+                        if (
+                            MessageBox.Show("There is a new version. Would you like to download it?", "New version",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start("https://sourceforge.net/projects/tsubtitledownloader/");
+                        }
+
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
         }
     }
 }
