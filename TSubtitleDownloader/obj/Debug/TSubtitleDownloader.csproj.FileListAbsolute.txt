@@ -10,3 +10,16 @@ c:\users\ozok\documents\visual studio 2013\Projects\TSubtitleDownloader\TSubtitl
 C:\Users\ozok\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\Newtonsoft.Json.dll
 C:\Users\ozok\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\Newtonsoft.Json.xml
 C:\Users\ozok\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.AboutForm.resources
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\TSubtitleDownloader.exe.config
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\TSubtitleDownloader.exe
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\TSubtitleDownloader.pdb
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.csprojResolveAssemblyReference.cache
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.AboutForm.resources
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.MainForm.resources
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.Properties.Resources.resources
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.csproj.GenerateResource.Cache
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.csproj.CoreCompileInputs.cache
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.exe
+C:\Users\Okan\Documents\Visual Studio 2013\Projects\TSubtitleDownloader\TSubtitleDownloader\obj\Debug\TSubtitleDownloader.pdb

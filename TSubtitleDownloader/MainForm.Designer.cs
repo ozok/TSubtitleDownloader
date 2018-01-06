@@ -48,21 +48,25 @@
             this.addFolderTreeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.TopBar = new System.Windows.Forms.Panel();
+            this.RemoveBtn = new System.Windows.Forms.Button();
+            this.ClearBtn = new System.Windows.Forms.Button();
             this.StopBtn = new System.Windows.Forms.Button();
             this.ProgressPanel = new System.Windows.Forms.Panel();
-            this.TotalProgressBar = new System.Windows.Forms.ProgressBar();
             this.ScoreLabel = new System.Windows.Forms.Label();
+            this.TotalProgressBar = new System.Windows.Forms.ProgressBar();
             this.LogPanel = new System.Windows.Forms.Panel();
             this.LogList = new System.Windows.Forms.ListBox();
-            this.ListPanel = new System.Windows.Forms.Panel();
             this.LogMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveLogDialog = new System.Windows.Forms.SaveFileDialog();
-            this.WaitPanel = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.ClearBtn = new System.Windows.Forms.Button();
-            this.RemoveBtn = new System.Windows.Forms.Button();
+            this.ListPanel = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.SelectAlternateLocationBtn = new System.Windows.Forms.Button();
+            this.AlternateDownloadLocationEdit = new System.Windows.Forms.TextBox();
+            this.AlternateDownloadLocationBtn = new System.Windows.Forms.CheckBox();
+            this.IntervalEdit = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,22 +77,21 @@
             this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.IntervalEdit = new System.Windows.Forms.NumericUpDown();
+            this.saveLogDialog = new System.Windows.Forms.SaveFileDialog();
+            this.WaitPanel = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.versionControlThread = new System.ComponentModel.BackgroundWorker();
             this.AddMenu.SuspendLayout();
             this.TopBar.SuspendLayout();
             this.ProgressPanel.SuspendLayout();
             this.LogPanel.SuspendLayout();
-            this.ListPanel.SuspendLayout();
             this.LogMenu.SuspendLayout();
-            this.WaitPanel.SuspendLayout();
-            this.mainMenu.SuspendLayout();
+            this.ListPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IntervalEdit)).BeginInit();
+            this.mainMenu.SuspendLayout();
+            this.WaitPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // FileList
@@ -102,9 +105,9 @@
             this.FileList.FullRowSelect = true;
             this.FileList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.FileList.HideSelection = false;
-            this.FileList.Location = new System.Drawing.Point(0, 45);
+            this.FileList.Location = new System.Drawing.Point(0, 70);
             this.FileList.Name = "FileList";
-            this.FileList.Size = new System.Drawing.Size(984, 290);
+            this.FileList.Size = new System.Drawing.Size(984, 265);
             this.FileList.TabIndex = 1;
             this.FileList.UseCompatibleStateImageBehavior = false;
             this.FileList.View = System.Windows.Forms.View.Details;
@@ -209,26 +212,27 @@
             this.addFolderToolStripMenuItem,
             this.addFolderTreeToolStripMenuItem});
             this.AddMenu.Name = "AddMenu";
-            this.AddMenu.Size = new System.Drawing.Size(159, 70);
+            this.AddMenu.Size = new System.Drawing.Size(158, 92);
+            this.AddMenu.Opening += new System.ComponentModel.CancelEventHandler(this.AddMenu_Opening);
             // 
             // addFilesToolStripMenuItem
             // 
             this.addFilesToolStripMenuItem.Name = "addFilesToolStripMenuItem";
-            this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.addFilesToolStripMenuItem.Text = "Add Files";
             this.addFilesToolStripMenuItem.Click += new System.EventHandler(this.addFilesToolStripMenuItem_Click);
             // 
             // addFolderToolStripMenuItem
             // 
             this.addFolderToolStripMenuItem.Name = "addFolderToolStripMenuItem";
-            this.addFolderToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.addFolderToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.addFolderToolStripMenuItem.Text = "Add Folder";
             this.addFolderToolStripMenuItem.Click += new System.EventHandler(this.addFolderToolStripMenuItem_Click);
             // 
             // addFolderTreeToolStripMenuItem
             // 
             this.addFolderTreeToolStripMenuItem.Name = "addFolderTreeToolStripMenuItem";
-            this.addFolderTreeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.addFolderTreeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.addFolderTreeToolStripMenuItem.Text = "Add Folder Tree";
             this.addFolderTreeToolStripMenuItem.Click += new System.EventHandler(this.addFolderTreeToolStripMenuItem_Click);
             // 
@@ -248,6 +252,32 @@
             this.TopBar.Name = "TopBar";
             this.TopBar.Size = new System.Drawing.Size(984, 55);
             this.TopBar.TabIndex = 9;
+            // 
+            // RemoveBtn
+            // 
+            this.RemoveBtn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.RemoveBtn.Image = ((System.Drawing.Image)(resources.GetObject("RemoveBtn.Image")));
+            this.RemoveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RemoveBtn.Location = new System.Drawing.Point(230, 0);
+            this.RemoveBtn.Name = "RemoveBtn";
+            this.RemoveBtn.Size = new System.Drawing.Size(115, 55);
+            this.RemoveBtn.TabIndex = 11;
+            this.RemoveBtn.Text = "Remove";
+            this.RemoveBtn.UseVisualStyleBackColor = true;
+            this.RemoveBtn.Click += new System.EventHandler(this.RemoveBtn_Click);
+            // 
+            // ClearBtn
+            // 
+            this.ClearBtn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ClearBtn.Image = ((System.Drawing.Image)(resources.GetObject("ClearBtn.Image")));
+            this.ClearBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ClearBtn.Location = new System.Drawing.Point(115, 0);
+            this.ClearBtn.Name = "ClearBtn";
+            this.ClearBtn.Size = new System.Drawing.Size(115, 55);
+            this.ClearBtn.TabIndex = 10;
+            this.ClearBtn.Text = "Clear All";
+            this.ClearBtn.UseVisualStyleBackColor = true;
+            this.ClearBtn.Click += new System.EventHandler(this.ClearBtn_Click);
             // 
             // StopBtn
             // 
@@ -273,15 +303,6 @@
             this.ProgressPanel.Size = new System.Drawing.Size(984, 29);
             this.ProgressPanel.TabIndex = 10;
             // 
-            // TotalProgressBar
-            // 
-            this.TotalProgressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.TotalProgressBar.Location = new System.Drawing.Point(0, 16);
-            this.TotalProgressBar.Name = "TotalProgressBar";
-            this.TotalProgressBar.Size = new System.Drawing.Size(984, 13);
-            this.TotalProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.TotalProgressBar.TabIndex = 5;
-            // 
             // ScoreLabel
             // 
             this.ScoreLabel.AutoSize = true;
@@ -291,6 +312,15 @@
             this.ScoreLabel.Size = new System.Drawing.Size(216, 13);
             this.ScoreLabel.TabIndex = 6;
             this.ScoreLabel.Text = "Success: 0 / Fail: 0 / Processed:0 / Total: 0";
+            // 
+            // TotalProgressBar
+            // 
+            this.TotalProgressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.TotalProgressBar.Location = new System.Drawing.Point(0, 16);
+            this.TotalProgressBar.Name = "TotalProgressBar";
+            this.TotalProgressBar.Size = new System.Drawing.Size(984, 13);
+            this.TotalProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.TotalProgressBar.TabIndex = 5;
             // 
             // LogPanel
             // 
@@ -311,17 +341,6 @@
             this.LogList.Name = "LogList";
             this.LogList.Size = new System.Drawing.Size(984, 137);
             this.LogList.TabIndex = 1;
-            // 
-            // ListPanel
-            // 
-            this.ListPanel.Controls.Add(this.panel1);
-            this.ListPanel.Controls.Add(this.TopBar);
-            this.ListPanel.Controls.Add(this.mainMenu);
-            this.ListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ListPanel.Location = new System.Drawing.Point(0, 0);
-            this.ListPanel.Name = "ListPanel";
-            this.ListPanel.Size = new System.Drawing.Size(984, 414);
-            this.ListPanel.TabIndex = 12;
             // 
             // LogMenu
             // 
@@ -345,56 +364,107 @@
             this.clearLogToolStripMenuItem.Text = "Clear Log";
             this.clearLogToolStripMenuItem.Click += new System.EventHandler(this.clearLogToolStripMenuItem_Click);
             // 
-            // saveLogDialog
+            // ListPanel
             // 
-            this.saveLogDialog.DefaultExt = "txt";
-            this.saveLogDialog.Filter = "Text Files|*.txt";
+            this.ListPanel.Controls.Add(this.panel1);
+            this.ListPanel.Controls.Add(this.TopBar);
+            this.ListPanel.Controls.Add(this.mainMenu);
+            this.ListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ListPanel.Location = new System.Drawing.Point(0, 0);
+            this.ListPanel.Name = "ListPanel";
+            this.ListPanel.Size = new System.Drawing.Size(984, 414);
+            this.ListPanel.TabIndex = 12;
             // 
-            // WaitPanel
+            // panel1
             // 
-            this.WaitPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.WaitPanel.Controls.Add(this.label2);
-            this.WaitPanel.Location = new System.Drawing.Point(293, 161);
-            this.WaitPanel.Name = "WaitPanel";
-            this.WaitPanel.Size = new System.Drawing.Size(418, 70);
-            this.WaitPanel.TabIndex = 2;
-            this.WaitPanel.Visible = false;
+            this.panel1.Controls.Add(this.FileList);
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 79);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(984, 335);
+            this.panel1.TabIndex = 10;
             // 
-            // label2
+            // panel2
             // 
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(416, 68);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Please wait...";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.panel2.Controls.Add(this.SelectAlternateLocationBtn);
+            this.panel2.Controls.Add(this.AlternateDownloadLocationEdit);
+            this.panel2.Controls.Add(this.AlternateDownloadLocationBtn);
+            this.panel2.Controls.Add(this.IntervalEdit);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.LanguageList);
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.SkipExistingSubBtn);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(984, 70);
+            this.panel2.TabIndex = 2;
             // 
-            // ClearBtn
+            // SelectAlternateLocationBtn
             // 
-            this.ClearBtn.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ClearBtn.Image = ((System.Drawing.Image)(resources.GetObject("ClearBtn.Image")));
-            this.ClearBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ClearBtn.Location = new System.Drawing.Point(115, 0);
-            this.ClearBtn.Name = "ClearBtn";
-            this.ClearBtn.Size = new System.Drawing.Size(115, 55);
-            this.ClearBtn.TabIndex = 10;
-            this.ClearBtn.Text = "Clear All";
-            this.ClearBtn.UseVisualStyleBackColor = true;
-            this.ClearBtn.Click += new System.EventHandler(this.ClearBtn_Click);
+            this.SelectAlternateLocationBtn.Enabled = false;
+            this.SelectAlternateLocationBtn.Location = new System.Drawing.Point(875, 43);
+            this.SelectAlternateLocationBtn.Name = "SelectAlternateLocationBtn";
+            this.SelectAlternateLocationBtn.Size = new System.Drawing.Size(106, 23);
+            this.SelectAlternateLocationBtn.TabIndex = 13;
+            this.SelectAlternateLocationBtn.Text = "Select";
+            this.SelectAlternateLocationBtn.UseVisualStyleBackColor = true;
             // 
-            // RemoveBtn
+            // AlternateDownloadLocationEdit
             // 
-            this.RemoveBtn.Dock = System.Windows.Forms.DockStyle.Left;
-            this.RemoveBtn.Image = ((System.Drawing.Image)(resources.GetObject("RemoveBtn.Image")));
-            this.RemoveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.RemoveBtn.Location = new System.Drawing.Point(230, 0);
-            this.RemoveBtn.Name = "RemoveBtn";
-            this.RemoveBtn.Size = new System.Drawing.Size(115, 55);
-            this.RemoveBtn.TabIndex = 11;
-            this.RemoveBtn.Text = "Remove";
-            this.RemoveBtn.UseVisualStyleBackColor = true;
-            this.RemoveBtn.Click += new System.EventHandler(this.RemoveBtn_Click);
+            this.AlternateDownloadLocationEdit.Enabled = false;
+            this.AlternateDownloadLocationEdit.Location = new System.Drawing.Point(189, 45);
+            this.AlternateDownloadLocationEdit.Name = "AlternateDownloadLocationEdit";
+            this.AlternateDownloadLocationEdit.Size = new System.Drawing.Size(680, 20);
+            this.AlternateDownloadLocationEdit.TabIndex = 12;
+            // 
+            // AlternateDownloadLocationBtn
+            // 
+            this.AlternateDownloadLocationBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AlternateDownloadLocationBtn.AutoSize = true;
+            this.AlternateDownloadLocationBtn.Location = new System.Drawing.Point(15, 47);
+            this.AlternateDownloadLocationBtn.Name = "AlternateDownloadLocationBtn";
+            this.AlternateDownloadLocationBtn.Size = new System.Drawing.Size(168, 17);
+            this.AlternateDownloadLocationBtn.TabIndex = 11;
+            this.AlternateDownloadLocationBtn.Text = "Alternative download location:";
+            this.AlternateDownloadLocationBtn.UseVisualStyleBackColor = true;
+            this.AlternateDownloadLocationBtn.CheckedChanged += new System.EventHandler(this.AlternateDownloadLocationBtn_CheckedChanged);
+            // 
+            // IntervalEdit
+            // 
+            this.IntervalEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.IntervalEdit.Location = new System.Drawing.Point(869, 14);
+            this.IntervalEdit.Maximum = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.IntervalEdit.Minimum = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.IntervalEdit.Name = "IntervalEdit";
+            this.IntervalEdit.Size = new System.Drawing.Size(103, 20);
+            this.IntervalEdit.TabIndex = 10;
+            this.IntervalEdit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.IntervalEdit.Value = new decimal(new int[] {
+            250,
+            0,
+            0,
+            0});
+            this.IntervalEdit.ValueChanged += new System.EventHandler(this.IntervalEdit_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(717, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(152, 13);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Wait between downloads (ms):";
             // 
             // mainMenu
             // 
@@ -421,21 +491,21 @@
             // addFilesToolStripMenuItem1
             // 
             this.addFilesToolStripMenuItem1.Name = "addFilesToolStripMenuItem1";
-            this.addFilesToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.addFilesToolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             this.addFilesToolStripMenuItem1.Text = "Add Files";
             this.addFilesToolStripMenuItem1.Click += new System.EventHandler(this.addFilesToolStripMenuItem_Click);
             // 
             // addFolderToolStripMenuItem1
             // 
             this.addFolderToolStripMenuItem1.Name = "addFolderToolStripMenuItem1";
-            this.addFolderToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.addFolderToolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             this.addFolderToolStripMenuItem1.Text = "Add Folder";
             this.addFolderToolStripMenuItem1.Click += new System.EventHandler(this.addFolderToolStripMenuItem_Click);
             // 
             // addFolderTreeToolStripMenuItem1
             // 
             this.addFolderTreeToolStripMenuItem1.Name = "addFolderTreeToolStripMenuItem1";
-            this.addFolderTreeToolStripMenuItem1.Size = new System.Drawing.Size(158, 22);
+            this.addFolderTreeToolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             this.addFolderTreeToolStripMenuItem1.Text = "Add Folder Tree";
             this.addFolderTreeToolStripMenuItem1.Click += new System.EventHandler(this.addFolderTreeToolStripMenuItem_Click);
             // 
@@ -475,67 +545,34 @@
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
-            // panel1
+            // saveLogDialog
             // 
-            this.panel1.Controls.Add(this.FileList);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 79);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(984, 335);
-            this.panel1.TabIndex = 10;
+            this.saveLogDialog.DefaultExt = "txt";
+            this.saveLogDialog.Filter = "Text Files|*.txt";
             // 
-            // panel2
+            // WaitPanel
             // 
-            this.panel2.Controls.Add(this.IntervalEdit);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.LanguageList);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.SkipExistingSubBtn);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(984, 45);
-            this.panel2.TabIndex = 2;
+            this.WaitPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.WaitPanel.Controls.Add(this.label2);
+            this.WaitPanel.Location = new System.Drawing.Point(293, 161);
+            this.WaitPanel.Name = "WaitPanel";
+            this.WaitPanel.Size = new System.Drawing.Size(418, 70);
+            this.WaitPanel.TabIndex = 2;
+            this.WaitPanel.Visible = false;
             // 
-            // label3
+            // label2
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(703, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(152, 13);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Wait between downloads (ms):";
-            // 
-            // IntervalEdit
-            // 
-            this.IntervalEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IntervalEdit.Location = new System.Drawing.Point(861, 14);
-            this.IntervalEdit.Maximum = new decimal(new int[] {
-            250,
-            0,
-            0,
-            0});
-            this.IntervalEdit.Minimum = new decimal(new int[] {
-            250,
-            0,
-            0,
-            0});
-            this.IntervalEdit.Name = "IntervalEdit";
-            this.IntervalEdit.Size = new System.Drawing.Size(111, 20);
-            this.IntervalEdit.TabIndex = 10;
-            this.IntervalEdit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.IntervalEdit.Value = new decimal(new int[] {
-            250,
-            0,
-            0,
-            0});
-            this.IntervalEdit.ValueChanged += new System.EventHandler(this.IntervalEdit_ValueChanged);
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(416, 68);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Please wait...";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // versionControlThread
             // 
@@ -566,16 +603,16 @@
             this.ProgressPanel.ResumeLayout(false);
             this.ProgressPanel.PerformLayout();
             this.LogPanel.ResumeLayout(false);
+            this.LogMenu.ResumeLayout(false);
             this.ListPanel.ResumeLayout(false);
             this.ListPanel.PerformLayout();
-            this.LogMenu.ResumeLayout(false);
-            this.WaitPanel.ResumeLayout(false);
-            this.mainMenu.ResumeLayout(false);
-            this.mainMenu.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IntervalEdit)).EndInit();
+            this.mainMenu.ResumeLayout(false);
+            this.mainMenu.PerformLayout();
+            this.WaitPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -630,6 +667,9 @@
         private System.Windows.Forms.NumericUpDown IntervalEdit;
         private System.Windows.Forms.Label label3;
         private System.ComponentModel.BackgroundWorker versionControlThread;
+        private System.Windows.Forms.Button SelectAlternateLocationBtn;
+        private System.Windows.Forms.TextBox AlternateDownloadLocationEdit;
+        private System.Windows.Forms.CheckBox AlternateDownloadLocationBtn;
     }
 }
 

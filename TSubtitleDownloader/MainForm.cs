@@ -20,8 +20,7 @@ namespace TSubtitleDownloader
 
         private const bool Portable = false;
 
-        private const string VersionFileUrl =
-            "http://sourceforge.net/projects/tsubtitledownloader/files/version.txt/download";
+        private const string VersionFileUrl = "http://sourceforge.net/projects/tsubtitledownloader/files/version.txt/download";
         private const int Version = 1;
         private string _settingsFilePath;
         private Settings _settings;
@@ -33,6 +32,7 @@ namespace TSubtitleDownloader
         private int _failCounter = 0;
         private static Languages _languages = new Languages("languages.csv");
         private string _appDataFolder;
+        private string languageText;
 
         private void DisableUi()
         {
@@ -176,6 +176,7 @@ namespace TSubtitleDownloader
                     FileList.Items[i].Selected = false;
                 }
 
+                languageText = LanguageList.Text;
                 DisableUi();
                 FileList.Focus();
                 SubtitleDownloadWorker.RunWorkerAsync();
@@ -190,15 +191,15 @@ namespace TSubtitleDownloader
         {
             // default language is English
             string languageCode = "eng";
-            if (_languages.LanguagePairs.ContainsKey(LanguageList.Text))
+            if (_languages.LanguagePairs.ContainsKey(languageText))
             {
-                languageCode = _languages.LanguagePairs[LanguageList.Text];
+                languageCode = _languages.LanguagePairs[languageText];
             }
 
             this.Invoke((MethodInvoker)delegate()
             {
                 LogEvent("Starting to search for subtitles.");
-                LogEvent(String.Format("Searching subtitles in {0} ({1})", LanguageList.Text, languageCode));
+                LogEvent(String.Format("Searching subtitles in {0} ({1})", languageText, languageCode));
             });
             // search for each file in the list
             for (int i = 0; i < _filePathsList.Count; i++)
@@ -215,13 +216,13 @@ namespace TSubtitleDownloader
                 });
 
                 // will be used to update interface
-                var listItem = FileList.Items[i];
                 string filePath = _filePathsList[i];
-
-                this.Invoke((MethodInvoker)delegate()
+                ListViewItem listItem = new ListViewItem();
+                this.Invoke(method: (MethodInvoker)delegate()
                 {
                     LogEvent(String.Format("Searching for {0}", Path.GetFileName(filePath)));
                     _progressMessage = "Searching...";
+                    listItem = FileList.Items[i];
                     listItem.SubItems[3].Text = _progressMessage;
                     listItem.EnsureVisible();
                     listItem.Selected = true;
@@ -260,64 +261,72 @@ namespace TSubtitleDownloader
                         // save subtitle with the same name as the video file
                         string outputSubtitleFilePath = GenerateSubtitleFileName(filePath, Path.GetExtension(subtitleFile.FullName));
 
-                        // if user selects to skip when a subtitle is present
-                        // just log it.
-                        // otherwise, delete existing subtitle file and replace
-                        // it with newly downloaded one.
-                        if (SkipExistingSubBtn.Checked)
+                        if (AlternateDownloadLocationBtn.Checked)
                         {
-                            if (!File.Exists(outputSubtitleFilePath))
-                            {
-                                File.Move(subtitleFile.FullName, outputSubtitleFilePath);  
-                                LogEvent(String.Format("Saved to {0}", outputSubtitleFilePath));
-                                // update interface
-                                _successCounter++;
-                                this.Invoke((MethodInvoker)delegate()
-                                {
-                                    LogEvent(String.Format("Dowloaded for subtitle for {0}", Path.GetFileName(filePath)));
-                                    _progressMessage = "Downloaded";
-                                    listItem.SubItems[3].Text = _progressMessage;
-
-                                    ScoreLabel.Text = String.Format("Success: {0} / Fail: {1} / Processed: {2} / Total: {3}", _successCounter, _failCounter, _failCounter+_successCounter, _filePathsList.Count);
-                                    TotalProgressBar.Value = i + 1;
-                                    listItem.Selected = false;
-                                });
-                                Thread.Sleep(150);
-                            }
-                            else
-                            {
-                                // update interface
-                                _failCounter++;
-                                this.Invoke((MethodInvoker)delegate()
-                                {
-                                    LogEvent(String.Format("{0} alread exists, skipped.", Path.GetFileName(outputSubtitleFilePath)));
-                                    _progressMessage = "Skipped";
-                                    listItem.SubItems[3].Text = _progressMessage;
-
-                                    ScoreLabel.Text = String.Format("Success: {0} / Fail: {1} / Processed: {2} / Total: {3}", _successCounter, _failCounter, _failCounter + _successCounter, _filePathsList.Count);
-                                    TotalProgressBar.Value = i + 1;
-                                    listItem.Selected = false;
-                                });
-                                Thread.Sleep(150);
-                                continue;
-                            }
+                            
                         }
                         else
                         {
-                            if (File.Exists(outputSubtitleFilePath))
+                            // if user selects to skip when a subtitle is present
+                            // just log it.
+                            // otherwise, delete existing subtitle file and replace
+                            // it with newly downloaded one.
+                            if (SkipExistingSubBtn.Checked)
                             {
-                                try
+                                if (!File.Exists(outputSubtitleFilePath))
                                 {
-                                    File.Delete(outputSubtitleFilePath);
+                                    File.Move(subtitleFile.FullName, outputSubtitleFilePath);
+                                    LogEvent(String.Format("Saved to {0}", outputSubtitleFilePath));
+                                    // update interface
+                                    _successCounter++;
+                                    this.Invoke((MethodInvoker)delegate()
+                                    {
+                                        LogEvent(String.Format("Dowloaded for subtitle for {0}", Path.GetFileName(filePath)));
+                                        _progressMessage = "Downloaded";
+                                        listItem.SubItems[3].Text = _progressMessage;
+
+                                        ScoreLabel.Text = String.Format("Success: {0} / Fail: {1} / Processed: {2} / Total: {3}", _successCounter, _failCounter, _failCounter + _successCounter, _filePathsList.Count);
+                                        TotalProgressBar.Value = i + 1;
+                                        listItem.Selected = false;
+                                    });
+                                    Thread.Sleep(150);
                                 }
-                                catch (Exception ex)
+                                else
                                 {
-                                    LogEvent("Error: " + ex.Message);   
+                                    // update interface
+                                    _failCounter++;
+                                    this.Invoke((MethodInvoker)delegate()
+                                    {
+                                        LogEvent(String.Format("{0} alread exists, skipped.", Path.GetFileName(outputSubtitleFilePath)));
+                                        _progressMessage = "Skipped";
+                                        listItem.SubItems[3].Text = _progressMessage;
+
+                                        ScoreLabel.Text = String.Format("Success: {0} / Fail: {1} / Processed: {2} / Total: {3}", _successCounter, _failCounter, _failCounter + _successCounter, _filePathsList.Count);
+                                        TotalProgressBar.Value = i + 1;
+                                        listItem.Selected = false;
+                                    });
+                                    Thread.Sleep(150);
+                                    continue;
                                 }
                             }
-                            File.Move(subtitleFile.FullName, outputSubtitleFilePath);
-                            LogEvent(String.Format("Saved to {0}", outputSubtitleFilePath));
+                            else
+                            {
+                                if (File.Exists(outputSubtitleFilePath))
+                                {
+                                    try
+                                    {
+                                        File.Delete(outputSubtitleFilePath);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        LogEvent("Error: " + ex.Message);
+                                    }
+                                }
+                                File.Move(subtitleFile.FullName, outputSubtitleFilePath);
+                                LogEvent(String.Format("Saved to {0}", outputSubtitleFilePath));
+                            }    
                         }
+                        
                         // update interface
                         _successCounter++;
                         this.Invoke((MethodInvoker)delegate()
@@ -637,9 +646,19 @@ namespace TSubtitleDownloader
             }
             catch (Exception)
             {
-                
-                throw;
+                // silently ignore any possible error    
             }
+        }
+
+        private void AlternateDownloadLocationBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            AlternateDownloadLocationEdit.Enabled = AlternateDownloadLocationBtn.Checked;
+            SelectAlternateLocationBtn.Enabled = AlternateDownloadLocationBtn.Checked;
+        }
+
+        private void AddMenu_Opening(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }
